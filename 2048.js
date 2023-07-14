@@ -315,26 +315,32 @@ let touchStartY;
 let touchEndX;
 let touchEndY;
 
+let isScrolling = false;
+
 document.addEventListener('touchstart', function (event) {
   touchStartX = event.touches[0].clientX;
   touchStartY = event.touches[0].clientY;
+  isScrolling = false;
 });
 
 document.addEventListener('touchmove', function (event) {
-    const touchMoveX = event.touches[0].clientX;
-    const touchMoveY = event.touches[0].clientY;
-    const deltaX = touchMoveX - touchStartX;
-    const deltaY = touchMoveY - touchStartY;
-  
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      event.preventDefault();
-    }
-  });
+  const touchMoveX = event.touches[0].clientX;
+  const touchMoveY = event.touches[0].clientY;
+  const deltaX = touchMoveX - touchStartX;
+  const deltaY = touchMoveY - touchStartY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    event.preventDefault();
+    isScrolling = true;
+  }
+});
 
 document.addEventListener('touchend', function (event) {
   touchEndX = event.changedTouches[0].clientX;
   touchEndY = event.changedTouches[0].clientY;
-  handleSwipe();
+  if (!isScrolling) {
+    handleSwipe();
+  }
 });
 
 function handleSwipe() {
