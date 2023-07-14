@@ -310,37 +310,36 @@ document.addEventListener('keydown', handleKeyPress);
 const newGameButton = document.getElementById('newGameButton');
 newGameButton.addEventListener('click', newGame);
 
+
 let touchStartX;
 let touchStartY;
 let touchEndX;
 let touchEndY;
 
-let isScrolling = false;
-
 document.addEventListener('touchstart', function (event) {
   touchStartX = event.touches[0].clientX;
   touchStartY = event.touches[0].clientY;
-  isScrolling = false;
 });
 
 document.addEventListener('touchmove', function (event) {
+  if (event.touches.length > 1) {
+    return;
+  }
+
   const touchMoveX = event.touches[0].clientX;
   const touchMoveY = event.touches[0].clientY;
-  const deltaX = touchMoveX - touchStartX;
-  const deltaY = touchMoveY - touchStartY;
+  const deltaX = Math.abs(touchMoveX - touchStartX);
+  const deltaY = Math.abs(touchMoveY - touchStartY);
 
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+  if (deltaX > deltaY) {
     event.preventDefault();
-    isScrolling = true;
   }
 });
 
 document.addEventListener('touchend', function (event) {
   touchEndX = event.changedTouches[0].clientX;
   touchEndY = event.changedTouches[0].clientY;
-  if (!isScrolling) {
-    handleSwipe();
-  }
+  handleSwipe();
 });
 
 function handleSwipe() {
