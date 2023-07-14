@@ -310,3 +310,62 @@ document.addEventListener('keydown', handleKeyPress);
 
 const newGameButton = document.getElementById('newGameButton');
 newGameButton.addEventListener('click', newGame);
+
+// Variables to store touch coordinates
+let startX, startY, endX, endY;
+
+// Swipe thresholds for minimum distance and maximum variation
+const minDistance = 20;
+const maxVariation = 100;
+
+// Function to handle touch start event
+function touchStart(event) {
+  startX = event.touches[0].clientX;
+  startY = event.touches[0].clientY;
+}
+
+// Function to handle touch end event
+function touchEnd(event) {
+  endX = event.changedTouches[0].clientX;
+  endY = event.changedTouches[0].clientY;
+
+  const deltaX = endX - startX;
+  const deltaY = endY - startY;
+
+  // Determine the direction of the swipe
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    // Horizontal swipe
+    if (Math.abs(deltaX) > minDistance && Math.abs(deltaY) < maxVariation) {
+      if (deltaX > 0) {
+        moveRight(board);
+      } else {
+        moveLeft(board);
+      }
+    }
+  } else {
+    // Vertical swipe
+    if (Math.abs(deltaY) > minDistance && Math.abs(deltaX) < maxVariation) {
+      if (deltaY > 0) {
+        moveDown(board);
+      } else {
+        moveUp(board);
+      }
+    }
+  }
+
+  // Check if any move was made and update the game state
+  if (deltaX !== 0 || deltaY !== 0) {
+    addNumber(board);
+    renderBoard(board);
+    updateScore(calculateScore(board));
+
+    if (isGameOver(board)) {
+      alert('Game over!');
+    }
+  }
+}
+
+// Add touch event listeners
+document.addEventListener('touchstart', touchStart);
+document.addEventListener('touchend', touchEnd);
+
