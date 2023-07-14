@@ -312,49 +312,50 @@ const newGameButton = document.getElementById('newGameButton');
 newGameButton.addEventListener('click', newGame);
 
 // Variables to store touch coordinates
-let startX, startY, endX, endY;
+// Variables to store touch coordinates
+let touchStartX, touchStartY, touchEndX, touchEndY;
 
-// Swipe thresholds for minimum distance and maximum variation
-const minDistance = 20;
-const maxVariation = 100;
+// Minimum distance threshold for swipe gesture
+const minSwipeDistance = 50;
 
 // Function to handle touch start event
 function touchStart(event) {
-  startX = event.touches[0].clientX;
-  startY = event.touches[0].clientY;
+  touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY;
+}
+
+// Function to handle touch move event
+function touchMove(event) {
+  event.preventDefault(); // Prevent scrolling while swiping
 }
 
 // Function to handle touch end event
 function touchEnd(event) {
-  endX = event.changedTouches[0].clientX;
-  endY = event.changedTouches[0].clientY;
+  touchEndX = event.changedTouches[0].clientX;
+  touchEndY = event.changedTouches[0].clientY;
 
-  const deltaX = endX - startX;
-  const deltaY = endY - startY;
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
 
-  // Determine the direction of the swipe
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    // Horizontal swipe
-    if (Math.abs(deltaX) > minDistance && Math.abs(deltaY) < maxVariation) {
+  // Check if the swipe distance is greater than the threshold
+  if (Math.abs(deltaX) > minSwipeDistance || Math.abs(deltaY) > minSwipeDistance) {
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
       if (deltaX > 0) {
         moveRight(board);
       } else {
         moveLeft(board);
       }
-    }
-  } else {
-    // Vertical swipe
-    if (Math.abs(deltaY) > minDistance && Math.abs(deltaX) < maxVariation) {
+    } else {
+      // Vertical swipe
       if (deltaY > 0) {
         moveDown(board);
       } else {
         moveUp(board);
       }
     }
-  }
 
-  // Check if any move was made and update the game state
-  if (deltaX !== 0 || deltaY !== 0) {
+    // Check if any move was made and update the game state
     addNumber(board);
     renderBoard(board);
     updateScore(calculateScore(board));
@@ -367,5 +368,7 @@ function touchEnd(event) {
 
 // Add touch event listeners
 document.addEventListener('touchstart', touchStart);
+document.addEventListener('touchmove', touchMove);
 document.addEventListener('touchend', touchEnd);
+
 
