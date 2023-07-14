@@ -311,64 +311,36 @@ document.addEventListener('keydown', handleKeyPress);
 const newGameButton = document.getElementById('newGameButton');
 newGameButton.addEventListener('click', newGame);
 
-// Variables to store touch coordinates
-// Variables to store touch coordinates
-let touchStartX, touchStartY, touchEndX, touchEndY;
+document.addEventListener('touchstart', handleTouchStart, false);  
+document.addEventListener('touchmove', handleTouchMove, false);
 
-// Minimum distance threshold for swipe gesture
-const minSwipeDistance = 50;
+let startX;
+let startY;
 
-// Function to handle touch start event
-function touchStart(event) {
-  touchStartX = event.touches[0].clientX;
-  touchStartY = event.touches[0].clientY;
+function handleTouchStart(evt) {
+    evt.preventDefault();
+
+  startX = evt.touches[0].clientX;
+  startY = evt.touches[0].clientY;
 }
 
-// Function to handle touch move event
-function touchMove(event) {
-  event.preventDefault(); // Prevent scrolling while swiping
-}
+function handleTouchMove(evt) {
 
-// Function to handle touch end event
-function touchEnd(event) {
-  touchEndX = event.changedTouches[0].clientX;
-  touchEndY = event.changedTouches[0].clientY;
-
-  const deltaX = touchEndX - touchStartX;
-  const deltaY = touchEndY - touchStartY;
-
-  // Check if the swipe distance is greater than the threshold
-  if (Math.abs(deltaX) > minSwipeDistance || Math.abs(deltaY) > minSwipeDistance) {
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      // Horizontal swipe
-      if (deltaX > 0) {
-        moveRight(board);
-      } else {
-        moveLeft(board);
-      }
-    } else {
-      // Vertical swipe
-      if (deltaY > 0) {
-        moveDown(board);
-      } else {
-        moveUp(board);
-      }
+    evt.preventDefault();
+  
+    let key;
+    if (deltaX < 0) {
+      key = 'ArrowLeft';
+    } else if (deltaX > 0) {
+      key = 'ArrowRight';
+    } else if (deltaY < 0) {
+      key = 'ArrowUp';
+    } else if (deltaY > 0) {
+      key = 'ArrowDown';
     }
-
-    // Check if any move was made and update the game state
-    addNumber(board);
-    renderBoard(board);
-    updateScore(calculateScore(board));
-
-    if (isGameOver(board)) {
-      alert('Game over!');
-    }
+  
+    handleKeyPress({key: key});
   }
-}
 
-// Add touch event listeners
-document.addEventListener('touchstart', touchStart);
-document.addEventListener('touchmove', touchMove);
-document.addEventListener('touchend', touchEnd);
 
 
