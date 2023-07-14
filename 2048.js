@@ -322,18 +322,7 @@ document.addEventListener('touchstart', function (event) {
 });
 
 document.addEventListener('touchmove', function (event) {
-  if (event.touches.length > 1) {
-    return;
-  }
-
-  const touchMoveX = event.touches[0].clientX;
-  const touchMoveY = event.touches[0].clientY;
-  const deltaX = Math.abs(touchMoveX - touchStartX);
-  const deltaY = Math.abs(touchMoveY - touchStartY);
-
-  if (deltaY > deltaX) {
-    event.preventDefault();
-  }
+  event.preventDefault();
 });
 
 document.addEventListener('touchend', function (event) {
@@ -341,6 +330,7 @@ document.addEventListener('touchend', function (event) {
   touchEndY = event.changedTouches[0].clientY;
   handleSwipe();
 });
+
 
 function handleSwipe() {
   const deltaX = touchEndX - touchStartX;
