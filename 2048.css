@@ -8,6 +8,9 @@ body {
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .game-title {
@@ -26,15 +29,16 @@ body {
 .board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr); 
+  grid-template-rows: repeat(4, 1fr);
   grid-gap: 10px;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   height: 400px;
-  margin: 0 auto;
   background-color: #bbada0;
   border-radius: 10px;
   padding: 10px;
   box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .cell {
@@ -49,8 +53,6 @@ body {
   box-sizing: border-box;
   min-width: 0;
 }
-
-
 
 .cell[data-value="0"] {
   background-color: #cdc1b4;
@@ -114,7 +116,7 @@ body {
 
 .new-game-button {
   display: block;
-  margin: 20px auto; 
+  margin: 20px auto;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
