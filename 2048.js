@@ -299,53 +299,52 @@ function initializeBoard() {
   }
   
   let board = initializeBoard();
-  addNumber(board);
-  addNumber(board);
-  renderBoard(board);
-  
-  updateScore(0);
-  
-  document.addEventListener('keydown', handleKeyPress);
-  
-  const newGameButton = document.getElementById('newGameButton');
-  newGameButton.addEventListener('click', newGame);
-  
-  let touchStartX;
-  let touchStartY;
-  let touchEndX;
-  let touchEndY;
-  
-  document.addEventListener('touchstart', function (event) {
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-  });
-  
-  document.addEventListener('touchmove', function (event) {
-    event.preventDefault();
-  });
-  
-  document.addEventListener('touchend', function (event) {
-    touchEndX = event.changedTouches[0].clientX;
-    touchEndY = event.changedTouches[0].clientY;
-    handleSwipe();
-  });
-  
-  function handleSwipe() {
-    const deltaX = touchEndX - touchStartX;
-    const deltaY = touchEndY - touchStartY;
-  
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0) {
-        handleKeyPress({ key: 'ArrowRight' });
-      } else if (deltaX < 0) {
-        handleKeyPress({ key: 'ArrowLeft' });
-      }
-    } else {
-      if (deltaY > 0) {
-        handleKeyPress({ key: 'ArrowDown' });
-      } else if (deltaY < 0) {
-        handleKeyPress({ key: 'ArrowUp' });
-      }
+addNumber(board);
+addNumber(board);
+renderBoard(board);
+
+updateScore(0);
+
+document.addEventListener('keydown', handleKeyPress);
+
+const newGameButton = document.getElementById('newGameButton');
+newGameButton.addEventListener('click', newGame);
+
+let touchStartX;
+let touchStartY;
+let touchEndX;
+let touchEndY;
+
+document.addEventListener('touchstart', function (event) {
+  touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY;
+});
+
+document.addEventListener('touchmove', function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener('touchend', function (event) {
+  touchEndX = event.changedTouches[0].clientX;
+  touchEndY = event.changedTouches[0].clientY;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      handleKeyPress({ key: 'ArrowRight' });
+    } else if (deltaX < 0) {
+      handleKeyPress({ key: 'ArrowLeft' });
+    }
+  } else {
+    if (deltaY > 0) {
+      handleKeyPress({ key: 'ArrowDown' });
+    } else if (deltaY < 0) {
+      handleKeyPress({ key: 'ArrowUp' });
     }
   }
-  
+}
