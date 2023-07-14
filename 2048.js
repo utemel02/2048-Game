@@ -321,8 +321,15 @@ document.addEventListener('touchstart', function (event) {
 });
 
 document.addEventListener('touchmove', function (event) {
-  event.preventDefault();
-});
+    const touchMoveX = event.touches[0].clientX;
+    const touchMoveY = event.touches[0].clientY;
+    const deltaX = touchMoveX - touchStartX;
+    const deltaY = touchMoveY - touchStartY;
+  
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      event.preventDefault();
+    }
+  });
 
 document.addEventListener('touchend', function (event) {
   touchEndX = event.changedTouches[0].clientX;
