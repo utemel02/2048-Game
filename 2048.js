@@ -322,7 +322,14 @@ document.addEventListener('touchstart', function (event) {
 });
 
 document.addEventListener('touchmove', function (event) {
-  event.preventDefault();
+  const currentX = event.touches[0].clientX;
+  const currentY = event.touches[0].clientY;
+  const deltaX = touchStartX - currentX;
+  const deltaY = touchStartY - currentY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    event.preventDefault();
+  }
 });
 
 document.addEventListener('touchend', function (event) {
