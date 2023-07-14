@@ -331,7 +331,7 @@ document.addEventListener('touchmove', function (event) {
   const deltaX = Math.abs(touchMoveX - touchStartX);
   const deltaY = Math.abs(touchMoveY - touchStartY);
 
-  if (deltaX > deltaY) {
+  if (deltaY > deltaX) {
     event.preventDefault();
   }
 });
